@@ -68,7 +68,7 @@ export default class {
      */
     static update(req, res) {
         try {
-            this.collection.find({ _id: ObjectId(req.body._id) }).toArray((err, docs) => {
+            this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                 if (err)
                         res.json({ "status": "failed", "data": null, "message": "Can't insert the member, err : " + err })
                 else {
@@ -81,16 +81,14 @@ export default class {
                     delete new_member.role
                     delete new_member._id
 
-                    // Create the set to update the member we just remove the _id
-                    let set = {};
-                    Object.assign(set, req.body)
-                    delete set._id
+                    // Remove the _id because the field can't be updated
+                    delete req.body._id
                     // update with the new fields
-                    this.collection.updateOne({ _id: ObjectId(req.body._id) }, { $set: set }).then(result => {
+                    this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: req.body }).then(result => {
                         if (result.modifiedCount == 0)
                             res.json({ "status": "failed", "data": null, "message": "Member not update" })
                         else {
-                            this.collection.find({ _id: ObjectId(req.body._id) }).toArray((err, docs) => {
+                            this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                                 if (err)
                                     res.json({ "status": "failed", "data": null, "message": "Can't get member, err : " + err })
                                 else
@@ -107,7 +105,6 @@ export default class {
                     })
                 }
             })
-            
         } catch (error) {
             res.json({ "status": "failed", "data": null, "message": "Can't update the member, err : " + error.toString() })
         }

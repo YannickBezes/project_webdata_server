@@ -105,6 +105,34 @@ export default class {
     }
 
     /**
+     * Update a service
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    static update(req, res) {
+        try {
+            // Remove the _id because the field can't be updated
+            delete req.body._id
+            // update with the new fields
+            this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: req.body }).then(result => {
+                if (result.modifiedCount == 0)
+                    res.json({ "status": "failed", "data": null, "message": "Service not update" })
+                else {
+                    this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
+                        if (err)
+                            res.json({ "status": "failed", "data": null, "message": "Can't get service, err : " + err })
+                        else
+                            res.json({ "status": "success", "data": docs.pop()})
+                    })
+                }
+            })
+        } catch (error) {
+            res.json({ "status": "failed", "data": null, "message": "Can't update the service, err : " + error.toString() })
+        }
+    }
+
+    /**
      * Update the field 'uses' 
      *
      * @param {*} req
