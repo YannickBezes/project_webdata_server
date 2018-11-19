@@ -111,6 +111,13 @@ def create_members(num_members):
         member['city'] = cities[random.randrange(len(cities))]
         member['address'] = addresses[random.randrange(len(addresses))]
         member['email'] = "{}.{}@duoflex.com".format(member['firstname'].lower(), member['lastname'].lower())
+
+        # Check if the member doesn't exist yet
+        while member_exist(members, member):
+            member['lastname'] = lastnames[random.randrange(len(lastnames))]
+            member['firstname'] = firstnames[random.randrange(len(firstnames))]
+            member['email'] = "{}.{}@duoflex.com".format(member['firstname'].lower(), member['lastname'].lower())
+        
         # Change it when we find the algo for the password
         member['password'] = "password"
         members.append(member)
@@ -142,10 +149,9 @@ def create_properties(num_properties, members):
 
         # Set the disponibilities
         _property['disponibilities'] = []
-        for _ in range(2, random.randrange(start=3, stop=20)):
+        for _ in range(2, random.randrange(3, 20)):
             # Get month
             month = random.randrange(11, 13)
-            
             # Get days
             day = random.randrange(1, 32)
 
@@ -157,12 +163,12 @@ def create_properties(num_properties, members):
 
         # Set the uses
         _property['uses'] = []
+        # copy disponibilities to remove them later
+        disponibilities = copy(_property['disponibilities'])        
         for _ in range(0, random.randrange(0, len(_property['disponibilities']))):
             # Get the disponibility
-            random_disponibility = _property['disponibilities'][random.randrange(len(_property['disponibilities']))]
-            
-            while use_exist(_property['uses'], random_disponibility):
-                random_disponibility = _property['disponibilities'][random.randrange(len(_property['disponibilities']))]
+            random_disponibility = disponibilities[random.randrange(len(disponibilities))]
+            disponibilities.remove(random_disponibility)
 
             # Get member
             random_user = members[random.randrange(len(members))].copy()
@@ -202,7 +208,7 @@ def create_services(num_services, members):
 
         # Set the disponibilities
         _service['disponibilities'] = []
-        for _ in range(2, random.randrange(start=3, stop=20)):
+        for _ in range(2, random.randrange(3, 20)):
             # Get month
             month = random.randrange(11, 13)
             
@@ -217,12 +223,12 @@ def create_services(num_services, members):
 
         # Set the uses
         _service['uses'] = []
+        # Copy disponibilities to remove them after
+        disponibilities = copy(_service['disponibilities'])
         for _ in range(0, random.randrange(0, len(_service['disponibilities']))):
             # Get the disponibility
-            random_disponibility = _service['disponibilities'][random.randrange(len(_service['disponibilities']))]
-            
-            while use_exist(_service['uses'], random_disponibility):
-                random_disponibility = _service['disponibilities'][random.randrange(len(_service['disponibilities']))]
+            random_disponibility = disponibilities[random.randrange(len(disponibilities))]
+            disponibilities.remove(random_disponibility)
 
             # Get member
             random_user = members[random.randrange(len(members))].copy()
@@ -237,12 +243,17 @@ def create_services(num_services, members):
         services.append(_service)
     return services
 
-def use_exist(uses, disponibility):
-    if(len(uses) > 0): # Check if the list uses is not empty
-        for use in uses:
-            if use['disponibility'] == disponibility:
-                return True
+def member_exist(members, member):
+    for m in members:
+        if m['email'] == member['email']:
+            return True
     return False
+
+def copy(array):
+    cp = []
+    for v in array:
+        cp.append(v)
+    return cp
 
 # Will cut the first argument which is the filename of the script
 if __name__ == "__main__":
