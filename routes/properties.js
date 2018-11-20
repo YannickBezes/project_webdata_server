@@ -163,4 +163,37 @@ export default class {
             res.json({ "status": "failed", "data": null, "message": "No property update, err : " + error.toString() })
         }
     }
+
+
+    /**
+     * Update the field 'disponibilities' 
+     *
+     * @param {*} req
+     * @param {*} res
+     */
+    static update_disponibilities(req, res) {
+        let modifier; // modifier for the update
+        // We check if it's an array
+        if (Array.isArray(req.body.uses))
+            modifier = { $each: req.body.uses }
+        else
+            modifier = req.body.uses
+        try {
+            this.collection.updateOne({ "_id": ObjectId(req.params._id) }, { $push: { "disponibilities": modifier } }).then(result => {
+                if (result.modifiedCount == 0)
+                    res.json({ "status": "failed", "data": null, "message": "No property update" })
+                else {
+                    this.collection.find({ "_id": ObjectId(req.params._id) }).toArray((err, docs) => {
+                        if (err)
+                            res.json({ "status": "failed", "data": null, "message": "Can't get the property update, err : " + err })
+                        else
+                            res.json({ "status": "success", "data": docs.pop() })
+                    })
+                }
+            })
+        } catch (error) {
+            console.log(error)
+            res.json({ "status": "failed", "data": null, "message": "No property update, err : " + error.toString() })
+        }
+    }
 }

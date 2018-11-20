@@ -44,6 +44,9 @@ export default (app) => {
     // Update the field 'uses' of a property need to be AUTHENTIFIED
     app.patch('/property/uses/:_id', auth, (req, res) => properties.update_uses(req, res))
 
+    // Update the field 'disponibilities of a service need to be AUTHENTIFIED
+    app.patch('/property/disponibilities/:_id', auth, (req, res) => properties.update_disponibilities(req, res))
+
 
 
     // SERVICES
@@ -71,7 +74,8 @@ export default (app) => {
     // Update the field 'uses' of a service need to be AUTHENTIFIED
     app.patch('/service/uses/:_id', auth, (req, res) => services.update_uses(req, res))
 
-    // TODO: add an endpoint to update the disponibilities of the service and property
+    // Update the field 'disponibilities of a service need to be AUTHENTIFIED
+    app.patch('/service/disponibilities/:_id', auth, (req, res) => services.update_disponibilities(req, res))
 
     // DEFAULT request
     app.use((req, res) => {
