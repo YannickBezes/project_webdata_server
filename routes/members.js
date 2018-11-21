@@ -47,6 +47,7 @@ export default class {
 
     /**
      * Login the user and return a token for this user
+     * 
      * @param {*} req 
      * @param {*} res 
      */
