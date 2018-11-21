@@ -1,32 +1,17 @@
-import sha from 'jssha'
+import jwt from 'jsonwebtoken'
 import config from '../../config'
 
 export default (req, res, next) => {
     // X-Auth-Token
-    const userToken = req.get('X-Auth-Token')
-    const serverToken = genrateToken(req.originalUrl)
-
-    // console.log(`Token - ${userToken} vs ${serverToken}`)
-
-    if(!userToken) {
+    const user_token = req.get('X-Auth-Token')
+    if(!user_token) { // Check if there is a token in the header
         return res.json({status: 'failed', message: 'No token in header'})
-    } else if(userToken !== serverToken) {
-        return res.json({status: 'failed', message: 'Token invalid'})
+    } else {
+        jwt.verify(user_token, config.SALT, (err, decoded) => {
+            if (err)
+                res.json({ status: "failed", message: 'Invalid token' })
+            else
+                next()
+        })
     }
-    next()
-}
-
-// Génère un token unique pour la route accédée
-function genrateToken(path) {
-    // Sans hash
-    // return path + config.SALT
-
-    // Avec le hash
-    const _sha = new sha('SHA-512', 'TEXT')
-    // Crééer la chaine à hasher et l'encoder
-    const string = encodeURI(path + config.SALT)
-
-    _sha.update(string)
-
-    return _sha.getHash('HEX')
 }

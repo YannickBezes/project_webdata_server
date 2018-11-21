@@ -8,6 +8,9 @@ export default (app) => {
     // Get list of members, we need to be AUTHENTIFIED
     app.get('/members', auth, (req, res) => members.get(req, res))
 
+    // Login the member
+    app.post('/login', (req, res) => members.login(req, res))
+
     // Add a member need to be AUTHENTIFIED
     app.post('/member', auth, (req, res) => members.add(req, res))
 

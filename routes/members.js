@@ -1,6 +1,7 @@
 import { db } from '../db'
 import { ObjectId } from 'mongodb'
-import Properties from './properties'
+import jwt from 'jsonwebtoken'
+import config from '../config';
 
 export default class {
     static get collection() { return db.collection('members') }
@@ -22,6 +23,24 @@ export default class {
                 res.json({ "status": "failed", "data": null, "message": "Can't get members, err : " + err })
             else
                 res.json({"status": "success", "data": docs })
+        })
+    }
+
+    static login(req, res) {
+        this.collection.find({ email: req.body.email }).toArray((err, docs) => {
+            if (docs.length == 0)
+                res.json({"status": "failed", "data": null, "message": "User not found"})
+            else {
+                let user = docs.pop()
+                if(user.password != req.body.password)
+                    res.json({ "status": "failed", "data": null, "message": "Wrong password" })
+                else {
+                    let token = jwt.sign({user: user.email, password: user.password}, config.SALT, {
+                        expiresIn: 1440
+                    })
+                    res.json({ "status": "success", "data": token})
+                }
+            }
         })
     }
 
