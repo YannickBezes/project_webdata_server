@@ -13,9 +13,9 @@ export default class {
     static get_all(req, res) {        
         this.collection.find().toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get properties, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else
-                res.json({"status": "success", "data": docs })
+                res.json({status: "success", data: docs })
         })
     }
 
@@ -28,9 +28,9 @@ export default class {
     static get(req, res) {        
         this.collection.find({ _id: req.params._id }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get property, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get property, err : " + err })
             else
-                res.json({"status": "success", "data": docs.pop() })
+                res.json({status: "success", data: docs.pop() })
         })
     }
 
@@ -44,9 +44,9 @@ export default class {
         // TODO: improve, search in the name too
         this.collection.find({ "keywords": { $all: req.params.keywords.split(',').map(el => el.toLowerCase()) } }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get properties, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else
-                res.json({ "status": "success", 'data': docs })
+                res.json({ status: "success", 'data': docs })
         })
     }
 
@@ -59,9 +59,9 @@ export default class {
     static get_by_date(req, res) {
         this.collection.find({"disponibilities": { $gte: req.params.date } }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get properties, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else
-                res.json({ "status": "success", "data": docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -74,9 +74,9 @@ export default class {
     static get_by_owner_email(req, res) {
         this.collection.find({ "owner.email": req.params.email }).toArray((err, docs) => {
             if (err) 
-                res.json({ "status": "failed", "data": null, "message": "Can't get properties, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else {
-                res.json({"status": "success", "data": docs })
+                res.json({status: "success", data: docs })
             }
         })
     }
@@ -95,13 +95,13 @@ export default class {
             this.collection.insertOne(req.body).then(() => {
                 this.collection.find().sort({ _id: -1 }).limit(1).toArray((err, docs) => {
                     if (err)
-                        res.json({ "status": "failed", "data": null, "message": "Can't insert the property, err : " + err })
+                        res.json({ status: "failed", data: null, message: "Can't insert the property, err : " + err })
                     else
-                        res.json({ "status": "success", "data": docs.pop() })
+                        res.json({ status: "success", data: docs.pop() })
                 })
             })
         } catch (error) {
-            res.json({ "status": "failed", "data": null, "message": "Can't insert the property, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "Can't insert the property, err : " + error.toString() })
         }
     }
 
@@ -114,9 +114,9 @@ export default class {
     static delete(req, res) {
         this.collection.deleteOne({_id: ObjectId(req.body._id)}).then(result => {
             if(result.deletedCount == 0)
-                res.json({"status": "failed", "data": null, "message": "Can't delete the property"})
+                res.json({status: "failed", data: null, message: "Can't delete the property"})
             else
-                res.json({"status": "success", "data": req.body})
+                res.json({status: "success", data: req.body})
         })
     }
 
@@ -133,18 +133,18 @@ export default class {
             // update with the new fields
             this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: req.body }).then(result => {
                 if (result.modifiedCount == 0)
-                    res.json({ "status": "failed", "data": null, "message": "Property not update" })
+                    res.json({ status: "failed", data: null, message: "Property not update" })
                 else {
                     this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't get property, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't get property, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop()})
+                            res.json({ status: "success", data: docs.pop()})
                     })
                 }
             })
         } catch (error) {
-            res.json({ "status": "failed", "data": null, "message": "Can't update the property, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "Can't update the property, err : " + error.toString() })
         }
     }
 
@@ -164,18 +164,18 @@ export default class {
         try {
             this.collection.updateOne({ "_id": ObjectId(req.params._id) }, { $push: { "uses": modifier } }).then(result => {
                 if (result.modifiedCount == 0)
-                    res.json({ "status": "failed", "data": null, "message": "No property update" })
+                    res.json({ status: "failed", data: null, message: "No property update" })
                 else {
                     this.collection.find({ "_id": ObjectId(req.params._id) }).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't get the property update, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't get the property update, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop() })
+                            res.json({ status: "success", data: docs.pop() })
                     })
                 }
             })            
         } catch (error) {
-            res.json({ "status": "failed", "data": null, "message": "No property update, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "No property update, err : " + error.toString() })
         }
     }
 
@@ -196,19 +196,19 @@ export default class {
         try {
             this.collection.updateOne({ "_id": ObjectId(req.params._id) }, { $push: { "disponibilities": modifier } }).then(result => {
                 if (result.modifiedCount == 0)
-                    res.json({ "status": "failed", "data": null, "message": "No property update" })
+                    res.json({ status: "failed", data: null, message: "No property update" })
                 else {
                     this.collection.find({ "_id": ObjectId(req.params._id) }).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't get the property update, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't get the property update, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop() })
+                            res.json({ status: "success", data: docs.pop() })
                     })
                 }
             })
         } catch (error) {
             console.log(error)
-            res.json({ "status": "failed", "data": null, "message": "No property update, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "No property update, err : " + error.toString() })
         }
     }
 }

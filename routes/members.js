@@ -20,9 +20,9 @@ export default class {
             return doc
         }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get members, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get members, err : " + err })
             else
-                res.json({"status": "success", "data": docs })
+                res.json({status: "success", data: docs })
         })
     }
 
@@ -39,9 +39,9 @@ export default class {
             return doc
         }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get member, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
             else
-                res.json({"status": "success", "data": docs.pop() })
+                res.json({status: "success", data: docs.pop() })
         })
     }
 
@@ -53,16 +53,16 @@ export default class {
     static login(req, res) {
         this.collection.find({ email: req.body.email }).toArray((err, docs) => {
             if (docs.length == 0)
-                res.json({"status": "failed", "data": null, "message": "User not found"})
+                res.json({status: "failed", data: null, message: "User not found"})
             else {
                 let user = docs.pop()
                 if(user.password != req.body.password)
-                    res.json({ "status": "failed", "data": null, "message": "Wrong password" })
+                    res.json({ status: "failed", data: null, message: "Wrong password" })
                 else {
                     let token = jwt.sign({user: user.email, password: user.password}, config.SALT, {
                         expiresIn: 1440 // 24 hours
                     })
-                    res.json({ "status": "success", "data": token})
+                    res.json({ status: "success", data: token})
                 }
             }
         })
@@ -85,16 +85,16 @@ export default class {
                 this.collection.insertOne(req.body).then(() => {
                     this.collection.find().sort({ _id: -1 }).limit(1).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't insert the member, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't insert the member, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop() })
+                            res.json({ status: "success", data: docs.pop() })
                     })
                 })
             } catch (error) {
-                res.json({ "status": "failed", "data": null, "message": "Can't insert the member, err : " + error.toString() })
+                res.json({ status: "failed", data: null, message: "Can't insert the member, err : " + error.toString() })
             }
         } else {
-            res.json({ "status": "failed", "data": null, "message": "Email already exist"})
+            res.json({ status: "failed", data: null, message: "Email already exist"})
         }
     }
 
@@ -111,7 +111,7 @@ export default class {
             try {
                 this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                     if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't insert the member, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't insert the member, err : " + err })
                     else {
                         // Take old fields of the member
                         let old_member = docs.pop()
@@ -127,13 +127,13 @@ export default class {
                         // update with the new fields
                         this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: req.body }).then(result => {
                             if (result.modifiedCount == 0)
-                                res.json({ "status": "failed", "data": null, "message": "Member not update" })
+                                res.json({ status: "failed", data: null, message: "Member not update" })
                             else {
                                 this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                                     if (err)
-                                        res.json({ "status": "failed", "data": null, "message": "Can't get member, err : " + err })
+                                        res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
                                     else
-                                        res.json({ "status": "success", "data": docs.pop()})
+                                        res.json({ status: "success", data: docs.pop()})
                                 })
                                 // Update properties and services where the owner is the member updated
                                 db.collection('properties').updateMany({ "owner.email": old_member.email }, { $set: { owner: new_member } })
@@ -147,10 +147,10 @@ export default class {
                     }
                 })
             } catch (error) {
-                res.json({ "status": "failed", "data": null, "message": "Can't update the member, err : " + error.toString() })
+                res.json({ status: "failed", data: null, message: "Can't update the member, err : " + error.toString() })
             }
         } else {
-            res.json({ "status": "failed", "data": null, "message": "Email already exist"})
+            res.json({ status: "failed", data: null, message: "Email already exist"})
         }
     }
 
@@ -165,19 +165,19 @@ export default class {
             this.collection.deleteOne({ _id: ObjectId(req.body._id) }).then(result => {
                 // Check if a member as been deleted
                 if(result.deletedCount == 0)
-                    res.json({"status": "failed", "data": null, "message": "No member deleted"})
+                    res.json({status: "failed", data: null, message: "No member deleted"})
                 else
-                    res.json({"status": "success", "data": req.body})
+                    res.json({status: "success", data: req.body})
             })    
         } catch (error) {
-            res.json({"status": "failed", "data": null, "message": "Can't delete the member, err : " + error.toString() })
+            res.json({status: "failed", data: null, message: "Can't delete the member, err : " + error.toString() })
         }
     }
 
     static email_exist(email, id = null) {
         this.collection.find({ email: email }).toArray((err, docs) => {
             if (err)
-                req.json({ "status": "failed", "data": null, "message": "Can't check if the email already exist, err : " + err })
+                req.json({ status: "failed", data: null, message: "Can't check if the email already exist, err : " + err })
             else {
                 if (docs.length != 0) {
                     if (id && docs.pop()._id == id)

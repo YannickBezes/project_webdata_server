@@ -12,9 +12,9 @@ export default class {
     static get(req, res) {
         this.collection.find().toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get services, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({"status": "success", "data": docs })
+                res.json({status: "success", data: docs })
         })
     }
 
@@ -27,9 +27,9 @@ export default class {
     static get(req, res) {
         this.collection.find({ _id: req.params._id }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get service, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get service, err : " + err })
             else
-                res.json({"status": "success", "data": docs.pop() })
+                res.json({status: "success", data: docs.pop() })
         })
     }
 
@@ -43,9 +43,9 @@ export default class {
         // TODO: improve, search in the name too
         this.collection.find({ 'keywords': { $all: req.params.keywords.split(',').map(el => el.toLowerCase()) } }).toArray((err, docs) => {
             if (err) 
-                res.json({ "status": "failed", "data": null, "message": "Can't get services, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ "status": "success", "data": docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -58,9 +58,9 @@ export default class {
     static get_by_date(req, res) {
         this.collection.find({"disponibilities": { $gte: req.params.date } }).toArray((err, docs) => {
             if (err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get services, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ "status": "success", "data": docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -73,9 +73,9 @@ export default class {
     static get_owner_email(req, res) {
         this.collection.find({"owner.email": req.params.email}).toArray((err, docs) => {
             if(err)
-                res.json({ "status": "failed", "data": null, "message": "Can't get services, err : " + err })
+                res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ "status": "success", "data": docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -93,13 +93,13 @@ export default class {
             this.collection.insertOne(req.body).then(() => {
                 this.collection.find().sort({ _id: -1 }).limit(1).toArray((err, docs) => {
                     if (err)
-                        res.json({ "status": "failed", "data": null, "message": "Can't insert the services, err : " + err })
+                        res.json({ status: "failed", data: null, message: "Can't insert the services, err : " + err })
                     else
-                        res.json({ "status": "success", "data": docs.pop() })
+                        res.json({ status: "success", data: docs.pop() })
                 })
             })
         } catch (error) {
-            res.json({ "status": "failed", "data": null, "message": "Can't insert the services, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "Can't insert the services, err : " + error.toString() })
         }
     }
 
@@ -112,9 +112,9 @@ export default class {
     static delete(req, res) {
         this.collection.deleteOne({_id: ObjectId(req.body._id)}).then(result => {
             if(result.deletedCount == 0)
-                res.json({"status": "failed", "data": null, "message": "No service deleted"})
+                res.json({status: "failed", data: null, message: "No service deleted"})
             else
-                res.json({"status": "success", "data": req.body})
+                res.json({status: "success", data: req.body})
         })
     }
 
@@ -131,18 +131,18 @@ export default class {
             // update with the new fields
             this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: req.body }).then(result => {
                 if (result.modifiedCount == 0)
-                    res.json({ "status": "failed", "data": null, "message": "Service not update" })
+                    res.json({ status: "failed", data: null, message: "Service not update" })
                 else {
                     this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't get service, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't get service, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop()})
+                            res.json({ status: "success", data: docs.pop()})
                     })
                 }
             })
         } catch (error) {
-            res.json({ "status": "failed", "data": null, "message": "Can't update the service, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "Can't update the service, err : " + error.toString() })
         }
     }
 
@@ -162,19 +162,19 @@ export default class {
         try {
             this.collection.updateOne({ "_id": ObjectId(req.params._id) }, { $push: { "uses": modifier } }).then(result => {
                 if (result.modifiedCount == 0)
-                    res.json({ "status": "failed", "data": null, "message": "No service update" })
+                    res.json({ status: "failed", data: null, message: "No service update" })
                 else {
                     this.collection.find({ "_id": ObjectId(req.params._id) }).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't get the service update, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't get the service update, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop() })
+                            res.json({ status: "success", data: docs.pop() })
                     })
                 }
             })
         } catch (error) {
             console.log(error)
-            res.json({ "status": "failed", "data": null, "message": "No service update, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "No service update, err : " + error.toString() })
         }
     }
 
@@ -195,19 +195,19 @@ export default class {
         try {
             this.collection.updateOne({ "_id": ObjectId(req.params._id) }, { $push: { "disponibilities": modifier } }).then(result => {
                 if (result.modifiedCount == 0)
-                    res.json({ "status": "failed", "data": null, "message": "No service update" })
+                    res.json({ status: "failed", data: null, message: "No service update" })
                 else {
                     this.collection.find({ "_id": ObjectId(req.params._id) }).toArray((err, docs) => {
                         if (err)
-                            res.json({ "status": "failed", "data": null, "message": "Can't get the service update, err : " + err })
+                            res.json({ status: "failed", data: null, message: "Can't get the service update, err : " + err })
                         else
-                            res.json({ "status": "success", "data": docs.pop() })
+                            res.json({ status: "success", data: docs.pop() })
                     })
                 }
             })
         } catch (error) {
             console.log(error)
-            res.json({ "status": "failed", "data": null, "message": "No service update, err : " + error.toString() })
+            res.json({ status: "failed", data: null, message: "No service update, err : " + error.toString() })
         }
     }
 }
