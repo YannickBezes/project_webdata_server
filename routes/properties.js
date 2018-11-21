@@ -15,7 +15,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else
-                res.json({status: "success", data: docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -30,7 +30,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get property, err : " + err })
             else
-                res.json({status: "success", data: docs.pop() })
+                res.json({ status: "success", data: docs.pop() })
         })
     }
 
@@ -113,10 +113,10 @@ export default class {
      */
     static delete(req, res) {
         this.collection.deleteOne({_id: ObjectId(req.body._id)}).then(result => {
-            if(result.deletedCount == 0)
-                res.json({status: "failed", data: null, message: "Can't delete the property"})
+            if (result.deletedCount == 0)
+                res.json({ status: "failed", data: null, message: "Can't delete the property" })
             else
-                res.json({status: "success", data: req.body})
+                res.json({ status: "success", data: req.body })
         })
     }
 

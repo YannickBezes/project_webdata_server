@@ -22,7 +22,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get members, err : " + err })
             else
-                res.json({status: "success", data: docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -41,7 +41,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
             else
-                res.json({status: "success", data: docs.pop() })
+                res.json({ status: "success", data: docs.pop() })
         })
     }
 
@@ -63,7 +63,7 @@ export default class {
                     let token = jwt.sign({user: user.email, password: user.password}, config.SALT, {
                         expiresIn: 1440 // 24 hours
                     })
-                    res.json({ status: "success", data: token})
+                    res.json({ status: "success", data: token })
                 }
             }
         })
@@ -134,7 +134,7 @@ export default class {
                                     if (err)
                                         res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
                                     else
-                                        res.json({ status: "success", data: docs.pop()})
+                                        res.json({ status: "success", data: docs.pop() })
                                 })
                                 // Update properties and services where the owner is the member updated
                                 db.collection('properties').updateMany({ "owner.email": old_member.email }, { $set: { owner: new_member } })
@@ -151,7 +151,7 @@ export default class {
                 res.json({ status: "failed", data: null, message: "Can't update the member, err : " + error.toString() })
             }
         } else {
-            res.json({ status: "failed", data: null, message: "Email already exist"})
+            res.json({ status: "failed", data: null, message: "Email already exist" })
         }
     }
 
@@ -165,10 +165,10 @@ export default class {
         try {
             this.collection.deleteOne({ _id: ObjectId(req.body._id) }).then(result => {
                 // Check if a member as been deleted
-                if(result.deletedCount == 0)
-                    res.json({status: "failed", data: null, message: "No member deleted"})
+                if (result.deletedCount == 0)
+                    res.json({ status: "failed", data: null, message: "No member deleted" })
                 else
-                    res.json({status: "success", data: req.body})
+                    res.json({ status: "success", data: req.body })
             })    
         } catch (error) {
             res.json({status: "failed", data: null, message: "Can't delete the member, err : " + error.toString() })

@@ -14,7 +14,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({status: "success", data: docs })
+                res.json({ status: "success", data: docs })
         })
     }
 
@@ -29,7 +29,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get service, err : " + err })
             else
-                res.json({status: "success", data: docs.pop() })
+                res.json({ status: "success", data: docs.pop() })
         })
     }
 
@@ -111,10 +111,10 @@ export default class {
      */
     static delete(req, res) {
         this.collection.deleteOne({_id: ObjectId(req.body._id)}).then(result => {
-            if(result.deletedCount == 0)
-                res.json({status: "failed", data: null, message: "No service deleted"})
+            if (result.deletedCount == 0)
+                res.json({ status: "failed", data: null, message: "No service deleted" })
             else
-                res.json({status: "success", data: req.body})
+                res.json({ status: "success", data: req.body })
         })
     }
 
@@ -137,7 +137,7 @@ export default class {
                         if (err)
                             res.json({ status: "failed", data: null, message: "Can't get service, err : " + err })
                         else
-                            res.json({ status: "success", data: docs.pop()})
+                            res.json({ status: "success", data: docs.pop() })
                     })
                 }
             })
