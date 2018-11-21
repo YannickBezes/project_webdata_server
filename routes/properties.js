@@ -10,12 +10,27 @@ export default class {
      * @param {*} req
      * @param {*} res
      */
-    static get(req, res) {        
+    static get_all(req, res) {        
         this.collection.find().toArray((err, docs) => {
             if (err)
                 res.json({ "status": "failed", "data": null, "message": "Can't get properties, err : " + err })
             else
                 res.json({"status": "success", "data": docs })
+        })
+    }
+
+    /**
+     * Get a property
+     * 
+     * @param {*} req
+     * @param {*} res
+     */
+    static get(req, res) {        
+        this.collection.find({ _id: req.params._id }).toArray((err, docs) => {
+            if (err)
+                res.json({ "status": "failed", "data": null, "message": "Can't get property, err : " + err })
+            else
+                res.json({"status": "success", "data": docs.pop() })
         })
     }
 

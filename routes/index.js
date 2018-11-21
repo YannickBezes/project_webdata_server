@@ -6,7 +6,10 @@ import services from './services';
 export default (app) => {
     // MEMBERS
     // Get list of members, we need to be AUTHENTIFIED
-    app.get('/members', auth, (req, res) => members.get(req, res))
+    app.get('/members', auth, (req, res) => members.get_all(req, res))
+
+    // Get a member
+    app.get('/member/:_id', auth, (req, res) => members.get(req, res))
 
     // Login the member
     app.post('/login', (req, res) => members.login(req, res))
@@ -24,7 +27,10 @@ export default (app) => {
 
     // PROPERTIES
     // Get all properties
-    app.get('/properties', (req, res) => properties.get(req, res))
+    app.get('/properties', (req, res) => properties.get_all(req, res))
+
+    // Get a property
+    app.get('/property/:_id', (req, res) => properties.get(req, res))
 
     // Get properties by keywords
     app.get('/properties/keywords/:keywords', (req, res) => properties.get_by_keywords(req, res))
@@ -54,7 +60,10 @@ export default (app) => {
 
     // SERVICES
     // Get all services
-    app.get('/services', (req, res) => services.get(req, res))
+    app.get('/services', (req, res) => services.get_all(req, res))
+
+    // Get a service
+    app.get('/service/:_id', (req, res) => services.get(req, res))
 
     // Get services by keywords
     app.get('/services/keywords/:keywords', (req, res) => services.get_by_keywords(req, res))
