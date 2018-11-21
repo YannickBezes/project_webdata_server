@@ -1,0 +1,797 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API Server",
+        "version": "1.0.0",
+        "license": {
+            "name": "Licence MIT"
+        },
+        "description": "API server for the project web data"
+    },
+    "host": "localhost:3000",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Get a token ",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "email and password of a member",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schema/login"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/login"
+                        }
+                    }
+                }
+            }
+        },
+        "/members": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Return all member",
+                "description": "Return the list of member",
+                "operationId": "getMembers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/members"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/member/{_id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Return a member",
+                "description": "Return the member who the id is given in parameter",
+                "operationId": "getMemberById",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "description": "Id of the member",
+                    "in": "path",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/member"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            },
+            "patch": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Update a member",
+                "description": "Update the member who the id is given in parameter",
+                "operationId": "updateMember",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "description": "Id of the member",
+                    "in": "path",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/member"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            },
+            "delete": {
+                "tags":[
+                    "Member"
+                ],
+                "summary": "Delete a member",
+                "description": "Delete the member who the id is given in parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in":"path",
+                    "name": "_id",
+                    "description": "Id of the member"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/delete"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/member": {
+            "post": {
+                "tags":[
+                    "Member"
+                ],
+                "summary": "Add a member",
+                "description": "Add a member to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "member",
+                    "description": "Member object",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schema/member_passwords"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/member"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/properties": {
+            "get": {
+                "summary": "/properties",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": []
+            }
+        },
+        "/property/{_id}": {
+            "get": {
+                "summary": "/property/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            },
+            "patch": {
+                "summary": "/property/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/properties/keywords/{keywords}": {
+            "get": {
+                "summary": "/properties/keywords/{keywords}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "keywords",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/properties/owner/{email}": {
+            "get": {
+                "summary": "/properties/owner/{email}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "email",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/properties/date/{date}": {
+            "get": {
+                "summary": "/properties/date/{date}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "date",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/property": {
+            "post": {
+                "summary": "/property",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": []
+            },
+            "delete": {
+                "summary": "/property",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": []
+            }
+        },
+        "/property/uses/{_id}": {
+            "patch": {
+                "summary": "/property/uses/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/property/disponibilities/{_id}": {
+            "patch": {
+                "summary": "/property/disponibilities/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/services": {
+            "get": {
+                "summary": "/services",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": []
+            }
+        },
+        "/service/{_id}": {
+            "get": {
+                "summary": "/service/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            },
+            "patch": {
+                "summary": "/service/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/services/keywords/{keywords}": {
+            "get": {
+                "summary": "/services/keywords/{keywords}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "keywords",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/services/date/{date}": {
+            "get": {
+                "summary": "/services/date/{date}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "date",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/services/owner/{email}": {
+            "get": {
+                "summary": "/services/owner/{email}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "email",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/service": {
+            "post": {
+                "summary": "/service",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": []
+            },
+            "delete": {
+                "summary": "/service",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": []
+            }
+        },
+        "/service/uses/{_id}": {
+            "patch": {
+                "summary": "/service/uses/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        },
+        "/service/disponibilities/{_id}": {
+            "patch": {
+                "summary": "/service/disponibilities/{_id}",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "in": "path",
+                    "required": true
+                }]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Token": {
+            "type": "apiKey",
+            "name": "X-Auth-Token",
+            "in": "header"
+        }
+    },
+    "components": {
+        "schema": {
+            "login": {
+                "type":"object",
+                "properties":{
+                    "email":{
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "members": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                }
+            },
+            "member": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            },
+            "member_passwords": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "user": {
+                "type": "object",
+                "properties": {
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                }
+            },
+            "use": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibility": {
+                        "type": "string"
+                    }
+                }
+            },
+            "property": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "url_image": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "owner": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/use"
+                        }
+                    }
+                }
+            },
+            "service": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "owner": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/use"
+                        }
+                    }
+                }
+            }
+        },
+        "response": {
+            "delete": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data":{
+                        "type": "object"
+                    },
+                    "message":{
+                        "type":"string"
+                    }
+                }
+            },
+            "login": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data":{
+                        "type": "object",
+                        "properties":{
+                            "token": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "message":{
+                        "type":"string"
+                    }
+                }
+            },
+            "member": {
+                "type": "object",
+                "properties":{
+                    "status": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schema/member"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "members": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type":"array",
+                        "items": {
+                            "$ref": "#/components/schema/members"
+                        }
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "member": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "property": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "url_image": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "owner": {
+                    "$ref": "#/components/schema/user"
+                },
+                "disponibilities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "uses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schema/use"
+                    }
+                }
+            }
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "owner": {
+                    "$ref": "#/components/schema/user"
+                },
+                "disponibilities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "uses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schema/use"
+                    }
+                }
+            }
+        }
+    }
+}

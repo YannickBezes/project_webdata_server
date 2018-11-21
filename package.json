@@ -15,7 +15,8 @@
   "dependencies": {
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "mongodb": "^3.1.9"
+    "mongodb": "^3.1.9",
+    "swagger-ui-express": "^4.0.1"
   },
   "devDependencies": {
     "app-root-path": "^2.1.0",

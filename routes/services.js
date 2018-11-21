@@ -14,7 +14,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ status: "success", data: docs })
+                res.json({ status: "success", data: docs, message: null })
         })
     }
 
@@ -29,7 +29,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get service, err : " + err })
             else
-                res.json({ status: "success", data: docs.pop() })
+                res.json({ status: "success", data: docs.pop(), message: null })
         })
     }
 
@@ -45,7 +45,7 @@ export default class {
             if (err) 
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ status: "success", data: docs })
+                res.json({ status: "success", data: docs, message: null })
         })
     }
 
@@ -60,7 +60,7 @@ export default class {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ status: "success", data: docs })
+                res.json({ status: "success", data: docs, message: null })
         })
     }
 
@@ -75,7 +75,7 @@ export default class {
             if(err)
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
-                res.json({ status: "success", data: docs })
+                res.json({ status: "success", data: docs, message: null })
         })
     }
 
@@ -95,7 +95,7 @@ export default class {
                     if (err)
                         res.json({ status: "failed", data: null, message: "Can't insert the services, err : " + err })
                     else
-                        res.json({ status: "success", data: docs.pop() })
+                        res.json({ status: "success", data: docs.pop(), message: null })
                 })
             })
         } catch (error) {
@@ -114,7 +114,7 @@ export default class {
             if (result.deletedCount == 0)
                 res.json({ status: "failed", data: null, message: "No service deleted" })
             else
-                res.json({ status: "success", data: req.body })
+                res.json({ status: "success", data: null, message: null })
         })
     }
 
@@ -137,7 +137,7 @@ export default class {
                         if (err)
                             res.json({ status: "failed", data: null, message: "Can't get service, err : " + err })
                         else
-                            res.json({ status: "success", data: docs.pop() })
+                            res.json({ status: "success", data: docs.pop(), message: null })
                     })
                 }
             })
@@ -168,7 +168,7 @@ export default class {
                         if (err)
                             res.json({ status: "failed", data: null, message: "Can't get the service update, err : " + err })
                         else
-                            res.json({ status: "success", data: docs.pop() })
+                            res.json({ status: "success", data: docs.pop(), message: null })
                     })
                 }
             })
@@ -201,7 +201,7 @@ export default class {
                         if (err)
                             res.json({ status: "failed", data: null, message: "Can't get the service update, err : " + err })
                         else
-                            res.json({ status: "success", data: docs.pop() })
+                            res.json({ status: "success", data: docs.pop(), message: null })
                     })
                 }
             })
