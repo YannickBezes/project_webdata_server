@@ -26,6 +26,11 @@ export default class {
         })
     }
 
+    /**
+     * Login the user and return a token for this user
+     * @param {*} req 
+     * @param {*} res 
+     */
     static login(req, res) {
         this.collection.find({ email: req.body.email }).toArray((err, docs) => {
             if (docs.length == 0)
@@ -36,7 +41,7 @@ export default class {
                     res.json({ "status": "failed", "data": null, "message": "Wrong password" })
                 else {
                     let token = jwt.sign({user: user.email, password: user.password}, config.SALT, {
-                        expiresIn: 1440
+                        expiresIn: 1440 // 24 hours
                     })
                     res.json({ "status": "success", "data": token})
                 }
@@ -147,5 +152,11 @@ export default class {
         } catch (error) {
             res.json({"status": "failed", "data": null, "message": "Can't delete the member, err : " + error.toString() })
         }
+    }
+
+    static email_exist(email, id = null) {
+        this.collection.find({ email: email }).toArray((err, docs) => {
+            
+        })
     }
 }
