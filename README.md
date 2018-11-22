@@ -11,3 +11,6 @@ Run `npm i`
 
 ### To Launch the server
 Run the command `npm start`
+
+### API Docs
+To see the docs you can go [here](http://localhost:3000/docs)
