@@ -157,7 +157,7 @@ def create_properties(num_properties, members):
 
             # Add disponibilities
             _property['disponibilities'].append(
-                "2018-{}-{} {}".format(str(month).zfill(2), str(day).zfill(2), "AM" if random.random() <= 0.5 else "PM"),
+                "{}-{}-2018 {}".format(str(day).zfill(2), str(month).zfill(2), "AM" if random.random() <= 0.5 else "PM"),
             )
         _property['disponibilities'].sort()
 
@@ -217,7 +217,7 @@ def create_services(num_services, members):
 
             # Add disponibilities
             _service['disponibilities'].append(
-                "2018-{}-{} {}".format(str(month).zfill(2), str(day).zfill(2), "AM" if random.random() <= 0.5 else "PM"),
+                "{}-{}-2018 {}".format(str(day).zfill(2), str(month).zfill(2), "AM" if random.random() <= 0.5 else "PM"),
             )
         _service['disponibilities'].sort()
 

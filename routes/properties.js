@@ -42,7 +42,7 @@ export default class {
      */
     static get_by_keywords(req, res) {
         // TODO: improve, search in the name too
-        this.collection.find({ "keywords": { $all: req.params.keywords.split(',').map(el => el.toLowerCase()) } }).toArray((err, docs) => {
+        this.collection.find({ "keywords": { $all: req.params.keywords.split('-').map(el => el.toLowerCase()) } }).toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else
@@ -189,10 +189,10 @@ export default class {
     static update_disponibilities(req, res) {
         let modifier; // modifier for the update
         // We check if it's an array
-        if (Array.isArray(req.body.uses))
-            modifier = { $each: req.body.uses }
+        if (Array.isArray(req.body.disponibilities))
+            modifier = { $each: req.body.disponibilities }
         else
-            modifier = req.body.uses
+            modifier = req.body.disponibilities
         try {
             this.collection.updateOne({ "_id": ObjectId(req.params._id) }, { $push: { "disponibilities": modifier } }).then(result => {
                 if (result.modifiedCount == 0)
