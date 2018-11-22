@@ -8,7 +8,7 @@
         },
         "description": "API server for the project web data"
     },
-    "host": "localhost:3000",
+    "host": "localhost",
     "schemes": [
         "https",
         "http"
