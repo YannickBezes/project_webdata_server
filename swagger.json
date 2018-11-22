@@ -68,6 +68,42 @@
                 }]
             }
         },
+        "member/ratio/{_id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "operationId": "getRatioMember",
+                "summary": "Get the ratio of member",
+                "description": "Return the ratio of the member who his id is given in parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the member",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ratio": {
+                                    "type": "number",
+                                    "format": "float"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
         "/member/{_id}": {
             "get": {
                 "tags": [

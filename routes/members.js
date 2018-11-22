@@ -7,6 +7,28 @@ export default class {
     static get collection() { return db.collection('members') }
 
     /**
+     * Login the user and return a token for this user
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    static login(req, res) {
+        this.collection.find({ email: req.body.email }).toArray((err, docs) => {
+            if (docs.length == 0)
+                res.json({status: "failed", data: null, message: "User not found"})
+            else {
+                let user = docs.pop()
+                if(user.password != req.body.password)
+                    res.json({ status: "failed", data: null, message: "Wrong password" })
+                else {
+                    let token = jwt.sign({user: user.email, password: user.password}, config.SALT)
+                    res.json({ status: "success", data: { token }, message: null })
+                }
+            }
+        })
+    }
+
+    /**
      * Get all members
      *
      * @param {*} req
@@ -46,25 +68,28 @@ export default class {
     }
 
     /**
-     * Login the user and return a token for this user
+     * Return the ration between rent and lend
      * 
      * @param {*} req 
      * @param {*} res 
      */
-    static login(req, res) {
-        this.collection.find({ email: req.body.email }).toArray((err, docs) => {
-            if (docs.length == 0)
-                res.json({status: "failed", data: null, message: "User not found"})
-            else {
-                let user = docs.pop()
-                if(user.password != req.body.password)
-                    res.json({ status: "failed", data: null, message: "Wrong password" })
-                else {
-                    let token = jwt.sign({user: user.email, password: user.password}, config.SALT)
-                    res.json({ status: "success", data: { token }, message: null })
-                }
-            }
-        })
+    static async get_ratio(req, res) {
+        // Get _id
+        let result = await this.collection.find({ _id: ObjectId(req.params._id) }).toArray()
+        let { email } = result.pop()
+        // Get properties
+        let properties = await db.collection('properties').find({ "owner.email": email }).toArray()
+        // Get services
+        let services = await db.collection('services').find({ "owner.email": email }).toArray()
+        
+        // Get uses for properties
+        let uses_properties = await db.collection('properties').find({ "uses.user.email": email }).toArray()
+        // Get uses for services
+        let uses_services = await db.collection('services').find({ "uses.user.email": email }).toArray()
+
+        // Calculate the ratio
+        let ratio = (properties.length + services.length) / (uses_properties.length + uses_services.length)
+        res.json({status: "success", data: { ratio }, message: null})
     }
 
     /**
