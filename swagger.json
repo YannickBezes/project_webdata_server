@@ -350,7 +350,7 @@
                 "parameters": [{
                     "in": "path",
                     "name": "date",
-                    "description": "Format : dd-mm-yyyy-AM or dd-mm-yyyy-PM",
+                    "description": "Format : dd-mm-yyyy AM or dd-mm-yyyy PM",
                     "required": true
                 }],
                 "responses": {
@@ -669,7 +669,7 @@
                 "parameters": [{
                     "in": "path",
                     "name": "date",
-                    "description": "Format : dd-mm-yyyy-AM or dd-mm-yyyy-PM",
+                    "description": "Format : dd-mm-yyyy AM or dd-mm-yyyy PM",
                     "required": true
                 }],
                 "responses": {
