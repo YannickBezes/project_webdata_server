@@ -1,0 +1,1365 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API Server",
+        "version": "1.0.0",
+        "license": {
+            "name": "Licence MIT"
+        },
+        "description": "API server for the project web data"
+    },
+    "host": "localhost:3000",
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Get a token ",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "email and password of a member",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schema/login"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/login"
+                        }
+                    }
+                }
+            }
+        },
+        "/members": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "summary": "Get all member",
+                "description": "Return the list of member",
+                "operationId": "getMembers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/members"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/member/{_id}": {
+            "get": {
+                "tags": [
+                    "Member"
+                ],
+                "operationId": "getMemberById",
+                "summary": "Return a member",
+                "description": "Return the member who his id is given in parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "name": "_id",
+                    "description": "Id of the member",
+                    "in": "path",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/member"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            },
+            "patch": {
+                "tags": [
+                    "Member"
+                ],
+                "operationId": "updateMember",
+                "summary": "Update a member",
+                "description": "Update the member who the id is given in parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the member",
+                    "required": true
+                }, {
+                    "in": "body",
+                    "name": "member",
+                    "description": "Field to update",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schema/member_passwords"
+                    }
+
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/member"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            },
+            "delete": {
+                "tags":[
+                    "Member"
+                ],
+                "operationId":"deleteMember",
+                "summary": "Delete a member",
+                "description": "Delete the member who the id is given in parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in":"path",
+                    "name": "_id",
+                    "description": "Id of the member"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/delete"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/member": {
+            "post": {
+                "tags":[
+                    "Member"
+                ],
+                "operationId":"addMember",
+                "summary": "Add a member",
+                "description": "Add a member to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "body",
+                    "name": "member",
+                    "description": "Member object",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schema/add_member"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/member"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/properties": {
+            "get": {
+                "tags": [
+                    "Property"
+                ],
+                "operationId":"getProperties",
+                "summary": "Get all properties",
+                "description": "Return a list with all properties",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/properties"
+                        }
+                    }
+                }
+            }
+        },
+        "/property/{_id}": {
+            "get": {
+                "tags": [
+                    "Property"
+                ],
+                "operationId":"getProperty",
+                "summary": "Get a property",
+                "description": "Return the property who his id is given in parameter",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the property",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/property"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Property"
+                ],
+                "operationId":"updateProperty",
+                "summary": "Update a property",
+                "description": "Update the field of the property are givin in the body",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the property",
+                    "required": true
+                }, {
+                    "in":"body",
+                    "name": "property",
+                    "description": "Fields to update",
+                    "required": true,
+                    "schema":{
+                        "$ref": "#/components/schema/property"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/property"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            },
+            "delete": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Delete a property",
+                "description": "Delete the property where the id is given in parameter",
+                "operationId": "deleteProperty",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "Id",
+                    "description": "Id of the member to delete",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/delete"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/properties/keywords/{keywords}": {
+            "get": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Get properties by keywords",
+                "description": "Return a list with property which have the list of keywords",
+                "operationId": "getPropertiesByKeywords",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "keywords",
+                    "description":"List of keywords (example: keywords1-keywords2)",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/properties"
+                        }
+                    }
+                }
+                
+            }
+        },
+        "/properties/date/{date}": {
+            "get": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Get properties by date",
+                "description": "Return a list of properties where there disponibilities are greather or equal than the date given in paramerter",
+                "operationId": "getPropertiesByDate",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "date",
+                    "description": "Format : dd-mm-yyyy-AM or dd-mm-yyyy-PM",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/properties"
+                        }
+                    }
+                }
+            }
+        },
+        "/properties/owner/{email}": {
+            "get": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Get properties of a member",
+                "description": "Return a list of properties of a member",
+                "operationId": "getPropertiesByOwnerEmail",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "email",
+                    "description": "Email of the member",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/properties"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/property": {
+            "post": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Add a property",
+                "description": "Add a property to the database",
+                "operationId": "addProperty",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in":"body",
+                    "name": "property",
+                    "description": "Property to add",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#components/schema/add_property"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/property"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/property/uses/{_id}": {
+            "patch": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Add use to a property",
+                "description": "Add a use to the property where his id is given in parameter",
+                "operationId":"addUseProperty",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the property",
+                    "required": true
+                }, {
+                    "in": "body",
+                    "name": "use",
+                    "description": "Use to add can be an array too",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "uses": {
+                                "$ref": "#/components/schema/use"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/property"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/property/disponibilities/{_id}": {
+            "patch": {
+                "tags":[
+                    "Property"
+                ],
+                "summary": "Add disponibility to a property",
+                "description": "Add a disponibility to the property where his id is given in parameter",
+                "operationId":"addDisponibilityProperty",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the property to add the disponibility",
+                    "required": true
+                }, {
+                    "in": "body",
+                    "name": "disponibility",
+                    "description": "Disponibility to add can be an array too",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties":{
+                            "disponibilities":{
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/property"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/services": {
+            "get": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Get all services",
+                "description": "Return a list of services",
+                "operationId": "getServices",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/services"
+                        }
+                    }
+                }
+            }
+        },
+        "/service/{_id}": {
+            "get": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Get a service",
+                "description": "Return a service where his id is given in parameter",
+                "operationId": "getService",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the service",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/service"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Update a service",
+                "description": "Update a service",
+                "operationId": "updateService",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the service",
+                    "required": true
+                }, {
+                    "in": "body",
+                    "name": "service",
+                    "description": "Fields to update",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schema/service"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/service"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            },
+            "delete": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Delete a service",
+                "description": "Delete a service",
+                "operationId": "deleteService",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the service",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/service"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/services/keywords/{keywords}": {
+            "get": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Get services by keywords",
+                "description": "Return a list with services which have the list of keywords",
+                "operationId": "getServicesByKeywords",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "keywords",
+                    "description":"List of keywords (example: keywords1-keywords2)",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items":{
+                                "$ref": "#/components/response/services"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/services/date/{date}": {
+            "get": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Get services by date",
+                "description": "Return a list of services where there disponibilities are greather or equal than the date given in paramerter",
+                "operationId": "getServicesByDate",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "date",
+                    "description": "Format : dd-mm-yyyy-AM or dd-mm-yyyy-PM",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/services"
+                        }
+                    }
+                }
+            }
+        },
+        "/services/owner/{email}": {
+            "get": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Get services of a member",
+                "description": "Return a list of services of a member",
+                "operationId": "getSerivesByOwnerEmail",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "email",
+                    "description": "Email of the member",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/services"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/service": {
+            "post": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Add a service",
+                "description": "Add a service to the database",
+                "operationId": "addService",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                        "in":"body",
+                        "name": "service",
+                        "description": "Service to add",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#components/schema/add_service"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/service"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/service/uses/{_id}": {
+            "patch": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Get a service",
+                "description": "Return the service who his id is given in parameter",
+                "operationId":"getService",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "Id",
+                    "description": "Id of the member to delete",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/service"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
+        "/service/disponibilities/{_id}": {
+            "patch": {
+                "tags":[
+                    "Service"
+                ],
+                "summary": "Add disponibility to a service",
+                "description": "Add a disponibility to the service where his id is given in parameter",
+                "operationId":"addDisponibilityService",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the service to add the disponibility",
+                    "required": true
+                }, {
+                    "in": "body",
+                    "name": "disponibility",
+                    "description": "Disponibility to add can be an array too",
+                    "required": true,
+                    "schema": {
+                        "type": "object",
+                        "properties":{
+                            "disponibilities":{
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/service"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Token": {
+            "type": "apiKey",
+            "name": "X-Auth-Token",
+            "in": "header"
+        }
+    },
+    "components": {
+        "schema": {
+            "login": {
+                "type":"object",
+                "properties":{
+                    "email":{
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "members": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                }
+            },
+            "member": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            },
+            "member_passwords": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "add_member": {
+                "type": "object",
+                "properties": {
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "user": {
+                "type": "object",
+                "properties": {
+                    "firstname": {
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    }
+                }
+            },
+            "use": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibility": {
+                        "type": "string"
+                    }
+                }
+            },
+            "property": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "url_image": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "owner": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/use"
+                        }
+                    }
+                }
+            },
+            "add_property": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "url_image": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "owner": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/use"
+                        }
+                    }
+                }
+            },
+            "service": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "owner": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/use"
+                        }
+                    }
+                }
+            },
+            "add_service": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "keywords": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "owner": {
+                        "$ref": "#/components/schema/user"
+                    },
+                    "disponibilities": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "uses": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/use"
+                        }
+                    }
+                }
+            }
+        },
+        "response": {
+            "delete": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data":{
+                        "type": "object"
+                    },
+                    "message":{
+                        "type":"string"
+                    }
+                }
+            },
+            "login": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data":{
+                        "type": "object",
+                        "properties":{
+                            "token": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "message":{
+                        "type":"string"
+                    }
+                }
+            },
+            "member": {
+                "type": "object",
+                "properties":{
+                    "status": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schema/member"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "members": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type":"array",
+                        "items": {
+                            "$ref": "#/components/schema/members"
+                        }
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "properties": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/property"
+                        }
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "property": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schema/property"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "services": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schema/service"
+                        }
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "service": {
+                "type": "object",
+                "properties":{
+                    "status":{
+                        "type": "string"
+                    },
+                    "data": {
+                        "$ref": "#/components/schema/service"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+            
+        }
+    },
+    "definitions": {
+        "member": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "property": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "url_image": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "owner": {
+                    "$ref": "#/components/schema/user"
+                },
+                "disponibilities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "uses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schema/use"
+                    }
+                }
+            }
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "keywords": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "owner": {
+                    "$ref": "#/components/schema/user"
+                },
+                "disponibilities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "uses": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/components/schema/use"
+                    }
+                }
+            }
+        }
+    }
+}
