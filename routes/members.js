@@ -21,8 +21,9 @@ export default class {
                 if(user.password != req.body.password)
                     res.json({ status: "failed", data: null, message: "Wrong password" })
                 else {
-                    let token = jwt.sign({user: user.email, password: user.password}, config.SALT)
-                    res.json({ status: "success", data: { token }, message: null })
+                    let token = jwt.sign({ user: user.email, password: user.password }, config.SALT)
+                    delete user.password
+                    res.json({ status: "success", data: { token, user }, message: null })
                 }
             }
         })

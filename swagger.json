@@ -1186,6 +1186,9 @@
                         "properties":{
                             "token": {
                                 "type": "string"
+                            },
+                            "user": {
+                                "$ref": "#/components/schema/member"
                             }
                         }
                     },
