@@ -20,7 +20,7 @@ export default (app) => {
     app.get('/member/:_id', auth, (req, res) => members.get(req, res))
 
     // Get ratio of a member
-    app.get('/member/ratio/:_id', auth , (req, res) => members.get_ratio(req, res))
+    app.get('/member/ratio/:_id', auth, (req, res) => members.get_ratio(req, res))
 
     // Login the member
     app.post('/login', (req, res) => members.login(req, res))
