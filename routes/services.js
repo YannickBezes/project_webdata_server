@@ -10,7 +10,7 @@ export default class {
      * @param {*} req 
      * @param {*} res 
      */
-    static getget_all(req, res) {
+    static get_all(req, res) {
         this.collection.find().toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
