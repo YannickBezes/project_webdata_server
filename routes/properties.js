@@ -35,14 +35,13 @@ export default class {
     }
 
     /**
-     * Get properties by keywords (example : `url/properties/keyword,keyword,keyword,...`)
+     * Get properties by keywords (example : `url/properties/keyword/maison`)
      *
      * @param {*} req
      * @param {*} res
      */
-    static get_by_keywords(req, res) {
-        // TODO: improve, search in the name too
-        this.collection.find({ "keywords": { $all: req.params.keywords.split('-').map(el => el.toLowerCase()) } }).toArray((err, docs) => {
+    static get_by_keyword(req, res) {
+        this.collection.find({ $or: [{ keywords: { $elemMatch: { $eq: req.params.keyword.toLowerCase() } } }, { name: { $regex: req.params.keyword.toLowerCase(), $options: 'i' } } ] }).toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else

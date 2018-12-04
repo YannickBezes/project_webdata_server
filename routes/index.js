@@ -43,8 +43,8 @@ export default (app) => {
     // Get a property
     app.get('/property/:_id', (req, res) => properties.get(req, res))
 
-    // Get properties by keywords
-    app.get('/properties/keywords/:keywords', (req, res) => properties.get_by_keywords(req, res))
+    // Get properties by keyword
+    app.get('/properties/keyword/:keyword', (req, res) => properties.get_by_keyword(req, res))
 
     // Get properties by owner email need to be AUTHENTIFIED
     app.get('/properties/owner/:email', auth, (req, res) => properties.get_by_owner_email(req, res))
@@ -76,8 +76,8 @@ export default (app) => {
     // Get a service
     app.get('/service/:_id', (req, res) => services.get(req, res))
 
-    // Get services by keywords
-    app.get('/services/keywords/:keywords', (req, res) => services.get_by_keywords(req, res))
+    // Get services by keyword
+    app.get('/services/keyword/:keyword', (req, res) => services.get_by_keyword(req, res))
 
     // Get services by date
     app.get('/services/date/:date', (req, res) => services.get_by_date(req, res))

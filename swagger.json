@@ -10,8 +10,8 @@
     },
     "host": "localhost:3000",
     "schemes": [
-        "https",
-        "http"
+        "http",
+        "https"
     ],
     "paths": {
         "/login": {
@@ -344,21 +344,21 @@
                 }]
             }
         },
-        "/properties/keywords/{keywords}": {
+        "/properties/keyword/{keyword}": {
             "get": {
                 "tags":[
                     "Property"
                 ],
-                "summary": "Get properties by keywords",
-                "description": "Return a list with property which have the list of keywords",
-                "operationId": "getPropertiesByKeywords",
+                "summary": "Get properties by keyword",
+                "description": "Return a list with property which have the keyword",
+                "operationId": "getPropertiesByKeyword",
                 "consumes": [
                     "application/json"
                 ],
                 "parameters": [{
                     "in": "path",
-                    "name": "keywords",
-                    "description":"List of keywords (example: keywords1-keywords2)",
+                    "name": "keyword",
+                    "description":"Keyword (example: maison)",
                     "required": true
                 }],
                 "responses": {
@@ -661,21 +661,21 @@
                 }]
             }
         },
-        "/services/keywords/{keywords}": {
+        "/services/keyword/{keyword}": {
             "get": {
                 "tags":[
                     "Service"
                 ],
-                "summary": "Get services by keywords",
-                "description": "Return a list with services which have the list of keywords",
-                "operationId": "getServicesByKeywords",
+                "summary": "Get services by keyword",
+                "description": "Return a list with services which have the keyword",
+                "operationId": "getServicesByKeyword",
                 "consumes": [
                     "application/json"
                 ],
                 "parameters": [{
                     "in": "path",
-                    "name": "keywords",
-                    "description":"List of keywords (example: keywords1-keywords2)",
+                    "name": "keyword",
+                    "description":"Keywords (example: maison)",
                     "required": true
                 }],
                 "responses": {
