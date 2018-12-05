@@ -26,7 +26,7 @@ export default class {
      * @param {*} res
      */
     static get(req, res) {        
-        this.collection.find({ _id: req.params._id }).toArray((err, docs) => {
+        this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get property, err : " + err })
             else
