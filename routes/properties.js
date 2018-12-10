@@ -56,11 +56,18 @@ export default class {
      * @param {*} res 
      */
     static get_by_date(req, res) {
-        this.collection.find({"disponibilities": { $gte: req.params.date } }).toArray((err, docs) => {
+        this.collection.find().toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get properties, err : " + err })
             else
-                res.json({ status: "success", data: docs, message: null })
+                var docs_valid = []
+                docs.forEach(el => {
+                    el['disponibilities'].forEach(date_string => {
+                        if (new Date(date_string.split(" ")[0]).getTime() >= new Date(req.params.date).getTime())
+                            docs_valid.push(el)
+                    })
+                })
+                res.json({ status: "success", data: docs_valid, message: null })
         })
     }
 
