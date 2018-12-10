@@ -25,8 +25,7 @@ export default (app) => {
     // Login the member
     app.post('/login', (req, res) => members.login(req, res))
 
-    // Add a member need to be AUTHENTIFIED
-    app.post('/member', auth, (req, res) => members.add(req, res))
+    app.post('/register', (req, res) => members.register(req, res))
 
     // Update a member need to be AUTHENTIFIED
     app.patch('/member/:_id', auth, (req, res) => members.update(req, res))

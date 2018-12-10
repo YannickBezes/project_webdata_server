@@ -99,7 +99,7 @@ export default class {
      * @param {*} req
      * @param {*} res
      */
-    static async add(req, res) {
+    static async register(req, res) {
         // Check if the email does not exist
         let exist = await this.email_exist(req.body.email)
         if (!exist) {
