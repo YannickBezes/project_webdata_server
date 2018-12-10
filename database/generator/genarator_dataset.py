@@ -98,10 +98,6 @@ def create_members(num_members):
     with open("./data/cities.txt", "r") as file:
         cities = [c for c in file.read().split(";")]
 
-    # Get all address
-    addresses = []
-    with open("./data/address.txt", "r") as file:
-        addresses = file.read().split(";")
     members = []
     for _ in range(0, num_members):
         member = {}
@@ -109,7 +105,6 @@ def create_members(num_members):
         member['firstname'] = firstnames[random.randrange(len(firstnames))]
         member['role'] = "user"
         member['city'] = cities[random.randrange(len(cities))]
-        member['address'] = addresses[random.randrange(len(addresses))]
         member['email'] = "{}.{}@duoflex.com".format(member['firstname'].lower(), member['lastname'].lower())
 
         # Check if the member doesn't exist yet
