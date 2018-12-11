@@ -1,7 +1,8 @@
 import { db } from '../db'
 import { ObjectId } from 'mongodb'
 import jwt from 'jsonwebtoken'
-import config from '../config';
+import config from '../config'
+import sha from 'jssha'
 
 export default class {
     static get collection() { return db.collection('members') }
@@ -13,6 +14,8 @@ export default class {
      * @param {*} res 
      */
     static login(req, res) {
+        req.body.password = encrypt_password(req.body.password)
+
         this.collection.find({ email: req.body.email }).toArray((err, docs) => {
             if (docs.length == 0)
                 res.json({status: "failed", data: null, message: "User not found"})
@@ -107,6 +110,7 @@ export default class {
                 // Insert the member and get it after
                 // sort({_id: -1}) to sort from newest to oldest
                 // limt(1) to limit the number to one
+                req.body.password = encrypt_password(req.body.password)
                 this.collection.insertOne(req.body).then(() => {
                     this.collection.find().sort({ _id: -1 }).limit(1).toArray((err, docs) => {
                         if (err)
@@ -214,4 +218,10 @@ export default class {
             }
         })
     }
+}
+
+function encrypt_password(string) {
+    const _sha = new sha('SHA-512', 'TEXT')
+    _sha.update(string + config.SALT)
+    return _sha.getHash('HEX')
 }

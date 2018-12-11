@@ -9,12 +9,15 @@ import json
 import random
 import codecs
 import unicodedata
+import hashlib
 from StringIO import StringIO
 from objdict import ObjDict
 from termcolor import colored
 
 BOLD_TEXT = "\033[1m"
 RESET_TEXT = "\033[0;0m"
+SALT = '!3FZ8juO2P8P#tVY#1#j@YgYgSMK&3sGP#zsp4oX'
+
 # Logger
 logging.basicConfig(
     format="LOGGER {} - %(message)s".format(
@@ -114,8 +117,18 @@ def create_members(num_members):
             member['email'] = "{}.{}@duoflex.com".format(member['firstname'].lower(), member['lastname'].lower())
         
         # Change it when we find the algo for the password
-        member['password'] = "password"
+        member['password'] =  hashlib.sha512("password" + SALT).hexdigest()
         members.append(member)
+    
+    # Admin member
+    members.append({
+        'lastname': 'administrator',
+        'firstname': 'administrator',
+        'role': 'admin',
+        'city': '',
+        'email': 'admin@duoflex.com',
+        'password': hashlib.sha512("passwordadmin" + SALT).hexdigest()
+    })
     return members
 
 def create_properties(num_properties, members):
@@ -167,6 +180,8 @@ def create_properties(num_properties, members):
 
             # Get member
             random_user = members[random.randrange(len(members))].copy()
+            while random_user['role'] == 'admin':
+                random_user = members[random.randrange(len(members))].copy()
             del random_user['password'], random_user['role']
 
             # Add use
@@ -227,6 +242,8 @@ def create_services(num_services, members):
 
             # Get member
             random_user = members[random.randrange(len(members))].copy()
+            while random_user['role'] == 'admin':
+                random_user = members[random.randrange(len(members))].copy()
             del random_user['password'], random_user['role']
 
             # Add use
