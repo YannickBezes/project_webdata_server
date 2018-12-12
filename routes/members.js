@@ -25,7 +25,7 @@ export default class {
                     res.json({ status: "failed", data: null, message: "Wrong password" })
                 else {
                     let token = jwt.sign({ user: user.email, password: user.password }, config.SALT)
-                    delete user.password
+                    delete user['password']
                     res.json({ status: "success", data: { token, user }, message: null })
                 }
             }
@@ -47,8 +47,13 @@ export default class {
         }).toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get members, err : " + err })
-            else
+            else {
+                docs.forEach(user => {
+                    delete user['password']
+                    delete use['role']
+                });
                 res.json({ status: "success", data: docs, message: null })
+            }
         })
     }
 
@@ -66,8 +71,10 @@ export default class {
         }).toArray((err, docs) => {
             if (err)
                 res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
-            else
+            else {
+                delete docs[0]['password']
                 res.json({ status: "success", data: docs.pop(), message: null })
+            }
         })
     }
 
@@ -153,16 +160,24 @@ export default class {
     
                         // Remove the _id because the field can't be updated
                         delete req.body._id
+                        // If there is the password encrypt it
+                        if(req.body['password'])
+                            req.body.password = encrypt_password(req.body.password)
                         // update with the new fields
-                        this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: req.body }).then(result => {
+                        this.collection.updateOne({ _id: ObjectId(req.params._id) }, { $set: { ...req.body } }).then(result => {
                             if (result.modifiedCount == 0)
                                 res.json({ status: "failed", data: null, message: "Member not update" })
                             else {
                                 this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
                                     if (err)
                                         res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
-                                    else
-                                        res.json({ status: "success", data: docs.pop(), message: null })
+                                    else {
+                                        let user = docs.pop()
+                                        let token = jwt.sign({ user: user.email, password: user.password }, config.SALT)
+                                        delete user.password
+                                        res.json({ status: "success", data: { token, user }, message: null })
+
+                                    }
                                 })
                                 // Update properties and services where the owner is the member updated
                                 db.collection('properties').updateMany({ "owner.email": old_member.email }, { $set: { owner: new_member } })
@@ -204,18 +219,20 @@ export default class {
     }
 
     static email_exist(email, id = null) {
-        this.collection.find({ email: email }).toArray((err, docs) => {
-            if (err)
-                req.json({ status: "failed", data: null, message: "Can't check if the email already exist, err : " + err })
-            else {
-                if (docs.length != 0) {
-                    if (id && docs.pop()._id == id)
-                        return false
-                    else
-                        return true
+        return new Promise((resolve, reject) => {
+            this.collection.find({ email }).toArray((err, docs) => {
+                if (err)
+                    req.json({ status: "failed", data: null, message: "Can't check if the email already exist, err : " + err })
+                else {
+                    if (docs.length != 0) {
+                        if (id && docs.pop()._id == id)
+                            resolve(false)
+                        else
+                            resolve(true)
+                    }
+                    resolve(true)
                 }
-                return true
-            }
+            })
         })
     }
 }
