@@ -180,7 +180,6 @@ export default class {
                 }
             })
         } catch (error) {
-            console.log(error)
             res.json({ status: "failed", data: null, message: "No service update, err : " + error.toString() })
         }
     }
@@ -213,7 +212,6 @@ export default class {
                 }
             })
         } catch (error) {
-            console.log(error)
             res.json({ status: "failed", data: null, message: "No service update, err : " + error.toString() })
         }
     }

@@ -213,7 +213,6 @@ export default class {
                 }
             })
         } catch (error) {
-            console.log(error)
             res.json({ status: "failed", data: null, message: "No property update, err : " + error.toString() })
         }
     }
