@@ -42,6 +42,34 @@
                 }
             }
         },
+        "/admin/{_id}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Check if the user is admin",
+                "consumes": [
+                    "application/json"
+                ],
+                "parameters": [{
+                    "in": "path",
+                    "name": "_id",
+                    "description": "Id of the member",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/response/admin"
+                        }
+                    }
+                },
+                "security": [{
+                    "Token": []
+                }]
+            }
+        },
         "/members": {
             "get": {
                 "tags": [
@@ -1278,7 +1306,7 @@
             },
             "service": {
                 "type": "object",
-                "properties":{
+                "properties": {
                     "status":{
                         "type": "string"
                     },
@@ -1289,8 +1317,21 @@
                         "type": "string"
                     }
                 }
+            },
+            "admin": {
+                "type": "object",
+                "properties": {
+                    "status":{
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
             }
-            
         }
     },
     "definitions": {

@@ -16,6 +16,8 @@ export default (app) => {
     // Get list of members, we need to be AUTHENTIFIED
     app.get('/members', auth, (req, res) => members.get_all(req, res))
 
+    app.get('/admin/:_id', auth, (req, res) => members.is_admin(req, res))
+
     // Get a member
     app.get('/member/:_id', auth, (req, res) => members.get(req, res))
 

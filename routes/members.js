@@ -17,21 +17,39 @@ export default class {
         req.body.password = encrypt_password(req.body.password)
 
         this.collection.find({ email: req.body.email }).toArray((err, docs) => {
-            if (docs.length == 0)
-                res.json({status: "failed", data: null, message: "User not found"})
+            if (err)
+                res.json({ status: "failed", data: null, message: err })
             else {
-                let user = docs.pop()
-                if(user.password != req.body.password)
-                    res.json({ status: "failed", data: null, message: "Wrong password" })
+                if (docs.length == 0)
+                    res.json({status: "failed", data: null, message: "User not found"})
                 else {
-                    let token = jwt.sign({ user: user.email, password: user.password }, config.SALT)
-                    delete user['password']
-                    res.json({ status: "success", data: { token, user }, message: null })
+                    let user = docs.pop()
+                    if(user.password != req.body.password)
+                        res.json({ status: "failed", data: null, message: "Wrong password" })
+                    else {
+                        let token = jwt.sign({ user: user.email, password: user.password }, config.SALT)
+                        delete user['password']
+                        delete user['role']
+                        res.json({ status: "success", data: { token, user }, message: null })
+                    }
                 }
             }
         })
     }
 
+    static is_admin(req, res) {
+        this.collection.find({ _id: ObjectId(req.params._id) }).toArray((err, docs) => {
+            if (err)
+                res.json({ status: "failed", data: null, message: err })
+            else {
+                if (docs.length == 0)
+                    res.json({status: "failed", data: null, message: "User not found"})
+                else {
+                    res.json({ status: "success", data: docs.pop()["role"] === "admin", message: null })
+                }
+            }
+        })
+    }
     /**
      * Get all members
      *
@@ -50,7 +68,7 @@ export default class {
             else {
                 docs.forEach(user => {
                     delete user['password']
-                    delete use['role']
+                    delete user['role']
                 });
                 res.json({ status: "success", data: docs, message: null })
             }
@@ -73,6 +91,7 @@ export default class {
                 res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
             else {
                 delete docs[0]['password']
+                delete docs[0]['role']
                 res.json({ status: "success", data: docs.pop(), message: null })
             }
         })
@@ -99,8 +118,7 @@ export default class {
         let uses_services = await db.collection('services').find({ "uses.user.email": email }).toArray()
 
         // Calculate the ratio
-        let ratio = (properties.length + services.length) / (uses_properties.length + uses_services.length)
-        res.json({status: "success", data: { ratio }, message: null})
+        res.json({status: "success", data: { ratio: (properties.length + services.length) / (uses_properties.length + uses_services.length) }, message: null})
     }
 
     /**
@@ -123,7 +141,7 @@ export default class {
                         if (err)
                             res.json({ status: "failed", data: null, message: "Can't insert the member, err : " + err })
                         else
-                            res.json({ status: "success", data: docs.pop(), message: null })
+                            res.json({ status: "success", data: null, message: null })
                     })
                 })
             } catch (error) {
@@ -173,8 +191,9 @@ export default class {
                                         res.json({ status: "failed", data: null, message: "Can't get member, err : " + err })
                                     else {
                                         let user = docs.pop()
-                                        let token = jwt.sign({ user: user.email, password: user.password }, config.SALT)
-                                        delete user.password
+                                        let token = jwt.sign({ user: user['email'], password: user['password'] }, config.SALT)
+                                        delete user['password']
+                                        delete user['role']
                                         res.json({ status: "success", data: { token, user }, message: null })
 
                                     }
