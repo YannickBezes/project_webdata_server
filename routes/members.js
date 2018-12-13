@@ -225,7 +225,7 @@ export default class {
      */
     static delete(req, res) {
         try {
-            this.collection.deleteOne({ _id: ObjectId(req.body._id) }).then(result => {
+            this.collection.deleteOne({ _id: ObjectId(req.params._id) }).then(result => {
                 // Check if a member as been deleted
                 if (result.deletedCount == 0)
                     res.json({ status: "failed", data: null, message: "No member deleted" })

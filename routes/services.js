@@ -117,7 +117,7 @@ export default class {
      * @param {*} res
      */
     static delete(req, res) {
-        this.collection.deleteOne({_id: ObjectId(req.body._id)}).then(result => {
+        this.collection.deleteOne({ _id: ObjectId(req.params._id) }).then(result => {
             if (result.deletedCount == 0)
                 res.json({ status: "failed", data: null, message: "No service deleted" })
             else

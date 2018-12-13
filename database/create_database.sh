@@ -29,8 +29,8 @@ mongoimport --db TROC --collection services --file services.json --jsonArray --d
 # price
 # keywords
 # owner
-# disponibility   	(table of start_date and end_date)
-# use   			(table of start_date, end_date and user)
+# disponibility   	(table of date)
+# use   			(table of user and disponibility)
 #
 # _____________________________________
 #			SERVICES
@@ -40,5 +40,5 @@ mongoimport --db TROC --collection services --file services.json --jsonArray --d
 # description
 # keywords
 # owner
-# disponibility   	(table of start_date and end_date)
-# use   			(table of start_date, end_date and user)
+# disponibility   	(table of date)
+# use   			(table of user and disponibility)
