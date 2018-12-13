@@ -77,8 +77,8 @@ export default class {
      * @param {*} req 
      * @param {*} res 
      */
-    static get_owner_email(req, res) {
-        this.collection.find({"owner.email": req.params.email}).toArray((err, docs) => {
+    static get_by_owner_email(req, res) {
+        this.collection.find({ "owner.email": req.params.email }).toArray((err, docs) => {
             if(err)
                 res.json({ status: "failed", data: null, message: "Can't get services, err : " + err })
             else
