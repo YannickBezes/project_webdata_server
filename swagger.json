@@ -96,7 +96,7 @@
                 }]
             }
         },
-        "member/ratio/{_id}": {
+        "/member/ratio/{_id}": {
             "get": {
                 "tags": [
                     "Member"
