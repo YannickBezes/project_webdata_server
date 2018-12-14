@@ -118,7 +118,14 @@ export default class {
         let uses_services = await db.collection('services').find({ "uses.user.email": email }).toArray()
 
         // Calculate the ratio
-        res.json({status: "success", data: { ratio: (properties.length + services.length) / (uses_properties.length + uses_services.length) }, message: null})
+        let ratio
+        let total_uses = uses_properties.length + uses_services.length
+        if (total_uses === 0)
+            ratio = properties.length + services.length
+        else
+            ratio = (properties.length + services.length) / (uses_properties.length + uses_services.length)
+        
+        res.json({status: "success", data: { ratio }, message: null})
     }
 
     /**
