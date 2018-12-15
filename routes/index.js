@@ -1,7 +1,7 @@
 import auth from './middlewares/auth'
 import members from './members'
-import properties from './properties';
-import services from './services';
+import properties from './properties'
+import services from './services'
 import swagger from 'swagger-ui-express'
 import swagger_spec from '../swagger.json'
 

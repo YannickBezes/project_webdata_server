@@ -69,7 +69,7 @@ export default class {
                 docs.forEach(user => {
                     delete user['password']
                     delete user['role']
-                });
+                })
                 res.json({ status: "success", data: docs, message: null })
             }
         })
@@ -177,7 +177,7 @@ export default class {
                         // Take old fields of the member
                         let old_member = docs.pop()
     
-                        let new_member = {};
+                        let new_member = {}
                         Object.assign(new_member, req.body)
                         delete new_member.password
                         delete new_member.role

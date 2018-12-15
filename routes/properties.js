@@ -161,7 +161,7 @@ export default class {
      * @param {*} res
      */
     static update_uses(req, res) {
-        let modifier; // modifier for the update
+        let modifier // modifier for the update
         // We check if it's an array if it's an array so add each value
         if (Array.isArray(req.body.uses))
             modifier = { $each: req.body.uses }
@@ -193,7 +193,7 @@ export default class {
      * @param {*} res
      */
     static update_disponibilities(req, res) {
-        let modifier; // modifier for the update
+        let modifier // modifier for the update
         // We check if it's an array
         if (Array.isArray(req.body.disponibilities))
             modifier = { $each: req.body.disponibilities }

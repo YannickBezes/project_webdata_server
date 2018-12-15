@@ -1,4 +1,4 @@
-const root = require('app-root-path').path;
+const root = require('app-root-path').path
 module.exports = {
     entry: `${root}/index.js`,
     target: 'node',
@@ -15,4 +15,4 @@ module.exports = {
         extensions: ['.js'],
         modules: ['node_modules', `${root}/src`]
     }
-}; 
+} 
